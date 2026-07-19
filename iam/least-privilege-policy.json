@@ -1,0 +1,28 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowSafeOperations",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:*",
+                "s3:List*",
+                "s3:Get*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenySecurityChangesWithoutMFA",
+            "Effect": "Deny",
+            "Action": [
+                "cloudtrail:DeleteTrail",
+                "cloudtrail:StopLogging",
+                "iam:DeletePolicy"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "BoolIfExists": {"aws:MultiFactorAuthPresent": "false"}
+            }
+        }
+    ]
+}
